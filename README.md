@@ -88,7 +88,7 @@ Expose the following endpoints
 
 * [ ]  POST /orders/order - adds a new order to an existing customer
 * [ ]  PUT /orders/order/{ordernum} - completely replaces the given order record
-* [ ]  DELETE /orders/order/{ordername} - deletes the given order
+* [ ]  DELETE /orders/order/{ordernum} - deletes the given order
 
 ### Stretch Goal
 
@@ -96,6 +96,8 @@ Expose the following endpoints
 * [ ] DELETE /agents/unassigned/{agentcode} - Deletes an agent if they are not assigned to a customer
 
 ### MVP Testing
+
+Note that your ids may vary!
 
 <details>
 <summary>POST http://localhost:2019/customers/customer</summary>
