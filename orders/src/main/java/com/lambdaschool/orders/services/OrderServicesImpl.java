@@ -31,6 +31,11 @@ public class OrderServicesImpl implements OrderServices {
     @Override
     public Order save(Order order) {
         Order newOrder = new Order();
+        if (order.getOrdnum() != 0) {
+            ordersRepository.findById(order.getOrdnum())
+                    .orElseThrow(() -> new EntityNotFoundException("Order " + order.getOrdnum() + " not found"));
+            newOrder.setOrdnum(order.getOrdnum());
+        }
         newOrder.setOrdamount(order.getOrdamount());
         newOrder.setAdvanceamount(order.getAdvanceamount());
         newOrder.setOrderdescription(order.getOrderdescription());

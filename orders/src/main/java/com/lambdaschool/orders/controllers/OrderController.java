@@ -19,7 +19,6 @@ public class OrderController {
 
     @GetMapping(value = "/order/{num}", produces = "application/json")
     public ResponseEntity<Order> findOrderByNum(@PathVariable long num) {
-        System.out.println("test");
         Order order = orderServices.findOrderByNum(num);
         return new ResponseEntity<>(order, HttpStatus.OK);
     }
@@ -34,5 +33,12 @@ public class OrderController {
                 .toUri();
         responseHeaders.setLocation(newCustomerURI);
         return new ResponseEntity<>(responseHeaders, HttpStatus.CREATED);
+    }
+
+    @PutMapping(value = "/order/{id}", consumes = "application/json")
+    public ResponseEntity<Void> replaceOrder(@RequestBody Order order, @PathVariable long id) {
+        order.setOrdnum(id);
+        orderServices.save(order);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
