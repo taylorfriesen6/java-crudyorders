@@ -50,6 +50,12 @@ public class CustomerServicesImpl implements CustomerServices{
     public Customer save(Customer customer) {
         Customer newCustomer = new Customer();
 
+        if(customer.getCustcode() != 0) {
+            customersRepository.findById(customer.getCustcode())
+                .orElseThrow(() -> new EntityNotFoundException("Customer " + customer.getCustcode() + " not found"));
+            newCustomer.setCustcode(customer.getCustcode());
+        }
+
         newCustomer.setCustname(customer.getCustname());
         newCustomer.setCustcity(customer.getCustcity());
         newCustomer.setWorkingarea(customer.getWorkingarea());
