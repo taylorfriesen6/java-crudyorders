@@ -9,4 +9,5 @@ public interface CustomerServices {
     Customer findByCustcode(long custcode);
     List<Customer> findByNameLike(String matcher);
     Customer save(Customer customer);
+    Customer update(Customer customer, long id);
 }

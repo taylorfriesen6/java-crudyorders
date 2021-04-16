@@ -73,7 +73,7 @@ public class CustomerServicesImpl implements CustomerServices{
         Agent agent = customer.getAgent();
         Agent newAgent = agentsRepository.findById(agent.getAgentcode())
                 .orElseThrow(() -> new EntityNotFoundException("Agent " + agent.getAgentcode() + " not found"));
-        newCustomer.setAgent(agent);
+        newCustomer.setAgent(newAgent);
 
 //        @OneToMany(mappedBy = "customer",
 //                cascade = CascadeType.ALL,
@@ -93,6 +93,47 @@ public class CustomerServicesImpl implements CustomerServices{
                 newOrder.getPayments().add(newPayment);
             }
             newCustomer.getOrders().add(newOrder);
+        }
+
+        return customersRepository.save(newCustomer);
+    }
+
+    @Transactional
+    @Override
+    public Customer update(Customer customer, long id) {
+        Customer newCustomer = customersRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Customer " + id + " not found"));
+
+        if (customer.getCustname() != null) newCustomer.setCustname(customer.getCustname());
+        if (customer.getCustcity() != null) newCustomer.setCustcity(customer.getCustcity());
+        if (customer.getWorkingarea() != null) newCustomer.setWorkingarea(customer.getWorkingarea());
+        if (customer.getCustcountry() != null) newCustomer.setCustcountry(customer.getCustcountry());
+        if (customer.getGrade() != null) newCustomer.setGrade(customer.getGrade());
+        if (customer.hasvalueforopeningamt) newCustomer.setOpeningamt(customer.getOpeningamt());
+        if (customer.hasvalueforreceiveamt) newCustomer.setReceiveamt(customer.getReceiveamt());
+        if (customer.hasvalueforpaymentamt) newCustomer.setPaymentamt(customer.getPaymentamt());
+        if (customer.hasvalueforoutstandingamt) newCustomer.setOutstandingamt(customer.getOutstandingamt());
+        if (customer.getPhone() != null) newCustomer.setPhone(customer.getPhone());
+        if (customer.getAgent() != null) {
+            Agent agent = customer.getAgent();
+            Agent newAgent = agentsRepository.findById(agent.getAgentcode())
+                    .orElseThrow(() -> new EntityNotFoundException("Agent " + agent.getAgentcode() + " not found"));
+            newCustomer.setAgent(newAgent);
+        }
+        if (customer.getOrders().size() > 0) {
+            for (Order order : customer.getOrders()) {
+                Order newOrder = new Order();
+                newOrder.setOrdamount(order.getOrdamount());
+                newOrder.setAdvanceamount(order.getAdvanceamount());
+                newOrder.setOrderdescription(order.getOrderdescription());
+                newOrder.setCustomer(newCustomer);
+                for (Payment payment : order.getPayments()) {
+                    Payment newPayment = paymentRepository.findById(payment.getPaymentid())
+                            .orElseThrow(() -> new EntityNotFoundException("Payment " + payment.getPaymentid() + " not found"));
+                    newOrder.getPayments().add(newPayment);
+                }
+                newCustomer.getOrders().add(newOrder);
+            }
         }
 
         return customersRepository.save(newCustomer);

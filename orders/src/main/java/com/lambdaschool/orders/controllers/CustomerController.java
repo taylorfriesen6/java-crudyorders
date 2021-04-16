@@ -54,7 +54,13 @@ public class CustomerController {
     @PutMapping(value = "/customer/{id}", consumes = "application/json")
     public ResponseEntity<Void> replaceCustomer (@Valid @RequestBody Customer customer, @PathVariable long id) {
         customer.setCustcode(id);
-        customer = customerServices.save(customer);
+        customerServices.save(customer);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping(value = "/customer/{id}", consumes = "application/json")
+    public ResponseEntity<Void> updateCustomer (@Valid @RequestBody Customer customer, @PathVariable long id) {
+        customerServices.update(customer, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

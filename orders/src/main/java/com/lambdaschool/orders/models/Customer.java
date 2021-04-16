@@ -8,6 +8,11 @@ import java.util.List;
 
 @Entity
 @Table(name = "customers")
+@JsonIgnoreProperties({
+        "hasvalueforopeningamt",
+        "hasvalueforreceiveamt",
+        "hasvalueforpaymentamt",
+        "hasvalueforoutstandingamt"})
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,12 +28,16 @@ public class Customer {
 
     private String grade;
 
+    @Transient public boolean hasvalueforopeningamt = false;
     private double openingamt;
 
+    @Transient public boolean hasvalueforreceiveamt = false;
     private double receiveamt;
 
+    @Transient public boolean hasvalueforpaymentamt = false;
     private double paymentamt;
 
+    @Transient public boolean hasvalueforoutstandingamt = false;
     private double outstandingamt;
 
     private String phone;
@@ -48,17 +57,17 @@ public class Customer {
     }
 
     public Customer(String custname, String custcity, String workingarea, String custcountry, String grade, double openingamt, double receiveamt, double paymentamt, double outstandingamt, String phone, Agent agent) {
-        this.custname = custname;
-        this.custcity = custcity;
-        this.workingarea = workingarea;
-        this.custcountry = custcountry;
-        this.grade = grade;
-        this.openingamt = openingamt;
-        this.receiveamt = receiveamt;
-        this.paymentamt = paymentamt;
-        this.outstandingamt = outstandingamt;
-        this.phone = phone;
-        this.agent = agent;
+        this.setCustname(custname);
+        this.setCustcity(custcity);
+        this.setWorkingarea(workingarea);
+        this.setCustcountry(custcountry);
+        this.setGrade(grade);
+        this.setOpeningamt(openingamt);
+        this.setReceiveamt(receiveamt);
+        this.setPaymentamt(paymentamt);
+        this.setOutstandingamt(outstandingamt);
+        this.setPhone(phone);
+        this.setAgent(agent);
     }
 
     public long getCustcode() {
@@ -114,6 +123,7 @@ public class Customer {
     }
 
     public void setOpeningamt(double openingamt) {
+        this.hasvalueforopeningamt = true;
         this.openingamt = openingamt;
     }
 
@@ -122,6 +132,7 @@ public class Customer {
     }
 
     public void setReceiveamt(double receiveamt) {
+        this.hasvalueforreceiveamt = true;
         this.receiveamt = receiveamt;
     }
 
@@ -130,6 +141,7 @@ public class Customer {
     }
 
     public void setPaymentamt(double paymentamt) {
+        this.hasvalueforpaymentamt = true;
         this.paymentamt = paymentamt;
     }
 
@@ -138,6 +150,7 @@ public class Customer {
     }
 
     public void setOutstandingamt(double outstandingamt) {
+        this.hasvalueforoutstandingamt = true;
         this.outstandingamt = outstandingamt;
     }
 
