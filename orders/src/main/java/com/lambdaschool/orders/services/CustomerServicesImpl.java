@@ -138,4 +138,13 @@ public class CustomerServicesImpl implements CustomerServices{
 
         return customersRepository.save(newCustomer);
     }
+
+    @Transactional
+    @Override
+    public Customer delete(long id) {
+        Customer customer = customersRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Customer " + id + " not found"));
+        customersRepository.delete(customer);
+        return customer;
+    }
 }
