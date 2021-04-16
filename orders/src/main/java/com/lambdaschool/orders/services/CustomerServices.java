@@ -8,4 +8,5 @@ public interface CustomerServices {
     List<Customer> findAllCustomers();
     Customer findByCustcode(long custcode);
     List<Customer> findByNameLike(String matcher);
+    Customer save(Customer customer);
 }
