@@ -6,6 +6,7 @@ import com.lambdaschool.orders.models.Payment;
 import com.lambdaschool.orders.repositories.CustomersRepository;
 import com.lambdaschool.orders.repositories.OrdersRepository;
 import com.lambdaschool.orders.repositories.PaymentRepository;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,5 +50,13 @@ public class OrderServicesImpl implements OrderServices {
             newOrder.getPayments().add(newPayment);
         }
         return ordersRepository.save(newOrder);
+    }
+
+    @Transactional
+    @Override
+    public void delete(long id) {
+        Order order = ordersRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Order " + id + " not found"));
+        ordersRepository.delete(order);
     }
 }
